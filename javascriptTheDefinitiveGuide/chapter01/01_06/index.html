@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+<body>
+    <button onclick="hide(this, true); debug('hidden button 1')">hide1</button>
+    <button onclick="hide(this); debug('hidden button 2')">hide2</button>
+
+    <p>this is a paragraph of Html</p>
+    <p>here is more html.</p>
+    <script>
+        // 在这里可以写 嵌入到html 文件 中的javascript代码
+        function moveOn(){
+            var answer = confirm('准备好了吗？')
+        if(answer) window.location = "http://www.taobao.com"
+        }
+        setTimeout(moveOn, 1000)
+    </script>
+    <script src="library.js"></script>
+</body>
+</html>
