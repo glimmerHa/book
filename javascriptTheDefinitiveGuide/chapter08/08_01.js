@@ -1,5 +1,4 @@
 // 定义javascript函数
-
 function printProps(o){
     for(var p in o){
         console.log(p + ':' + o[p] + '\n');
@@ -27,8 +26,15 @@ var f = function fact(x){
     if(x<=1)return 1;
     else return x*fact(x-1)
 }
+let data = [1,2,3,2,1]
 // 函数表达式 可以作为参数传递给其他函数
 data.sort(function(a,b){return a-b})
 
 // 函数表达式 定义后立即调用
 var tensquared = (function(x){return x*x}(10));
+
+// 改为 可外接的形式
+exports.printProps = printProps
+exports.distance = distance
+exports.factorial = factorial
+exports.square = square
