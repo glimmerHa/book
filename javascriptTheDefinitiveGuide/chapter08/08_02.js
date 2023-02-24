@@ -42,3 +42,10 @@ var o  ={
     }
 }
 o.m()
+exports.o = o
+// 构造函数调用
+var o = new Object();
+
+// 间接调用
+// call()
+// apply()
