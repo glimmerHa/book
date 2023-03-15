@@ -62,3 +62,24 @@
     console.log(d.count())
 })();
 
+(function(){
+    console.log('---exp===4---')
+    function counter(n){
+        return {
+            get count(){
+                return n++
+            },
+            set count(m){
+                if(m >n){
+                    n = m;
+                }else throw Error('count  can only be set to a larger value');
+            }
+        }
+    }
+    var c = counter(100)
+    console.log(c.count)
+    console.log(c.count)
+    c.count = 2000
+    console.log(c.count)
+    c.count  = 2000
+})();
