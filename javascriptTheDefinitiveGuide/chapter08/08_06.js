@@ -7,11 +7,58 @@
 // javascript 函数对象的内部状态 不仅包含函数的代码逻辑，嗨必须引用 当前的作用域连。
 
 // 理解闭包 首先了解 嵌套函数的词法作用域规则；
+// 函数的执行 用到了作用域链，这个作用域链 在函数定义的时候创建的。
 
-var scope = 'global scope'
-function checkscope(){
-    var scope = 'local scope';
-    function f(){return scope}
-    return f()
-}
-checkscope()
+(function(){
+    console.log('---exp===1---')
+    var scope = 'global scope'
+    function checkscope(){
+        var scope = 'local scope';
+        function f(){return scope}
+        return f()
+    }
+    console.log(checkscope())
+})();
+
+(function(){
+    console.log('---exp===2---')
+    var scope = 'global scope'
+    function checkscope(){
+        var scope = 'local scope';
+        function f(){ return scope}
+        return f
+    }
+    console.log(checkscope()())
+})();
+
+
+// 重写
+(function(){
+    console.log('---exp===3---')
+    var uniqueInterger = (function(){
+        var counter = 0;
+        return function(){
+            return counter++
+        }
+    }())
+    console.log(uniqueInterger())
+    console.log(uniqueInterger())
+
+    function counter(){
+        var n = 0;
+        return {
+            count: function(){return n++},
+            reset: function(){n =0 }
+        }
+    }
+    var c = counter();
+    var d = counter();
+    //  c d 生成了两个新的对象， 局部变量也是新生成的。是互不干扰的两个变量
+    console.log('---split line---')
+    console.log(c.count())
+    console.log(d.count())
+    c.reset()
+    console.log(c.count())
+    console.log(d.count())
+})();
+
