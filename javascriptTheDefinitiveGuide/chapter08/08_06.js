@@ -81,5 +81,31 @@
     console.log(c.count)
     c.count = 2000
     console.log(c.count)
-    c.count  = 2000
+    // c.count  = 2000
 })();
+
+// 同一个作用域链中定义两个必包； 这两个必包共享同样的私有变量或变量。
+console.log('---exp===5---')
+function constfunc(v){
+    return function(){
+        return v;
+    }
+}
+
+var funcs = []
+for(var i = 0; i < 10; i++){
+    funcs[i] = constfunc(i)
+}
+console.log(funcs[5]())
+
+function constFuncs(){
+    var funcs = []
+    for(var i = 0; i < 10; i++){
+        funcs[i] = function(){
+            return i;
+        }
+    }
+    return funcs
+}
+var funcs = constFuncs()
+console.log(funcs[5]())
