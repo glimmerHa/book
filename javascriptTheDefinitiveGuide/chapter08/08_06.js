@@ -109,3 +109,9 @@ function constFuncs(){
 }
 var funcs = constFuncs()
 console.log(funcs[5]())
+// 数组中的函数的返回值都是同一个值，这不是我们想要的结果
+
+// 关联到闭包的作用域链都是 “活动的”，记住这一点非常重要。
+// 嵌套的函数不会讲作用域内的私有成员复制一份，也不会对所绑定的变量生成静态快照(static snapshot)
+
+// 写闭包的时候还需要注意：this是javascript 的关键字，而不是变量
