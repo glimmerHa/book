@@ -3,7 +3,7 @@
 // length属性： 
 // arguments.length 是实际传入的实参个数；
 // arguments.callee.length 是期望传入 的实参个数；
-
+console.log('---exp===1---');
 (function(){
     function check(args){
         var actual = args.length;
@@ -32,6 +32,7 @@
 //     o.m()
 //     delete o.m
 // )()
+console.log('---exp===2---');
 (function(){
     var obj = {
         f: function(x,y,z){
@@ -54,13 +55,13 @@
 // bind()方法
 // 这个方法的主要作用就是将函数绑定到某个对象。返回一个新的函数。
 // 调用新的函数 将会 把原始的函数 f() 当作o的方法来调用。
-
+console.log('---exp===3---');
 (function(){
     function f(y){return this.x +y}
     var o = {x: 1};
     var g = f.bind(o)
     console.log(g(2) )
-}())
+}());
 
 // 实现这种绑定
 function bind(f,o){
@@ -69,3 +70,22 @@ function bind(f,o){
         return f.apply(o, arguments)
     }
 }
+
+
+// bind附带了一些其他应用； 常见的函数式编程技术，有时候也被称为“柯里化”
+console.log('---exp===4---');
+(function(){
+    var sum = function(x, y){
+        return x+y;
+    }
+    
+    var succ = sum.bind(null, 1)
+    console.log(succ(2))
+    
+    function f(y,z){
+        return this.x+y+z
+    }
+    var g = f.bind({x:1}, 2);
+    
+    console.log(g(3))
+})()
