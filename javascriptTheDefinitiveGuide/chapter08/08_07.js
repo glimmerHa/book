@@ -1,0 +1,71 @@
+// 函数属性， 方法和构造函数
+
+// length属性： 
+// arguments.length 是实际传入的实参个数；
+// arguments.callee.length 是期望传入 的实参个数；
+
+(function(){
+    function check(args){
+        var actual = args.length;
+        var expected = args.callee.length;
+        if(actual !== expected){
+            throw Error('Expected ' + expected + ' args; got ' + actual)
+        }
+    }
+    function f(x,y,z){
+        check(arguments);
+        return x+y + z
+    }
+    console.log(f(1,2,3))
+    // f(1,2,3,4)
+})();
+
+// prototype属性
+
+// call 方法
+// apply方法
+// (
+//     f.call(o)
+//     f.apply(0)
+//     // 等价
+//     o.m= f
+//     o.m()
+//     delete o.m
+// )()
+(function(){
+    var obj = {
+        f: function(x,y,z){
+            return x+y + z
+        }
+    }
+    function trace(o, m){
+        var original = o[m];
+        o[m] =  function(){
+            console.log(new Date(), 'entering:', m);
+            var result = original.apply(this, arguments)
+            console.log(new Date(), 'exiting:', m);
+            return result
+        };
+        return o[m]
+    }
+    console.log(trace(obj, 'f')(1,2,3))
+})()
+
+// bind()方法
+// 这个方法的主要作用就是将函数绑定到某个对象。返回一个新的函数。
+// 调用新的函数 将会 把原始的函数 f() 当作o的方法来调用。
+
+(function(){
+    function f(y){return this.x +y}
+    var o = {x: 1};
+    var g = f.bind(o)
+    console.log(g(2) )
+}())
+
+// 实现这种绑定
+function bind(f,o){
+    if(f.bind) return f.bind(o)
+    else return function(){
+        return f.apply(o, arguments)
+    }
+}
