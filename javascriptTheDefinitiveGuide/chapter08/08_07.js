@@ -89,3 +89,21 @@ console.log('---exp===4---');
     
     console.log(g(3))
 })()
+
+// toString
+
+// Function 构造函数 创建一个匿名函数
+console.log('---exp===5---');
+var ff = new Function("x", "y", "return x+y")
+console.log(ff)
+// Function构造函数创建的函数 不是使用词法作用域的， 函数体代码在顶层函数执行；
+// 浏览器内运行
+{
+    var scope = 'global'
+function constructFunction(){
+    var scope = 'local';
+    return new Function("return scope")
+}
+console.log(constructFunction()())
+}
+
