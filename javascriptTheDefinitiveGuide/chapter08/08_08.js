@@ -36,30 +36,32 @@ console.log('---exp===1---');
 })();
 
 // es3
-(function(){
-    // 自定义 map reducer 简单实现
-     var map = function(a,f){
-        var result = [];
-        for(var i = 0; i < a.length; i++){
-            if(i in a) result[i] = f.call(null,a[i], i ,a)
-        }
-        return result
-     }
-     var reduce = function(a,f, initial){
-        var acc ;
-        var i = 0;
-        if(arguments.length >2){
-            acc = initial
-        }else{
-            i = 1;
-            acc = a[0]
-        }
-        for(; i < a.length; i++){
-            acc = f.call(null, acc,a[i], i,a)
-        }
-        return acc
-     }
+// 自定义 map reducer 简单实现
+var map = function(a,f){
+    var result = [];
+    for(var i = 0; i < a.length; i++){
+        if(i in a) result[i] = f.call(null,a[i], i ,a)
+    }
+    return result
+ }
+ var reduce = function(a,f, initial){
+    var acc ;
+    var i = 0;
+    if(arguments.length >2){
+        acc = initial
+    }else{
+        i = 1;
+        acc = a[0]
+    }
+    for(; i < a.length; i++){
+        acc = f.call(null, acc,a[i], i,a)
+    }
+    return acc
+ }
 
+;(function(){
+    
+     
      var data = [1,1,3,5,5]
      var sum = function(x,y){return x+y};
      var square = function(x){return x*x};
@@ -67,13 +69,10 @@ console.log('---exp===1---');
      var deviations = map(data,function(x){return x-mean})
      var stddev = Math.sqrt(reduce(map(deviations, square), sum)/(data.length-1))
     console.log('a1', stddev)
-    if(window){
-        window.map = map
-    }if( module.exports){
-        module.exports = {
-            map,
-        } 
-    }
+    // window.map = map
+    // module.exports = {
+    //     map,
+    // } 
     
 })();
 
@@ -104,3 +103,55 @@ console.log('---exp===2---');
     console.log(incrementer([1,2,3]))
 })();
 
+(function(){
+    // 接收 f,g 计算f(g())
+    function compose (f,g){
+        return function(){
+            return f.call(this, g.apply(this,arguments))
+        }
+    }
+    var sum = function(x,y){return x+y};
+     var square = function(x){return x*x};
+     var squarefsum = compose(square, sum)
+     console.log(squarefsum(2,3))
+})();
+
+// 不完全函数
+console.log('---exp===2---');
+(function(){
+    // 类数组对象转换成真正的数组
+    function array(a, n){
+        return Array.prototype.slice.call(a,n || 0)
+    }
+    // 这个函数的实参 传递至左侧
+    function partialLeft(f /*, ...*/){
+        var args = arguments;
+        return function(){
+            var a = array(args, 1);
+            a =a.concat(array(arguments));
+            return f.apply(this,a)
+        }
+    }
+    // 这个函数的实参 传递至右侧
+    function partialRight(f /*, ...*/){
+        var args = arguments;
+        return function(){
+            var a = array(arguments);
+            a = a.concat(array(args, 1));
+            return f.apply(this,a)
+        }
+    }
+    // 这个函数的实参中 有 undefined 都被填充
+    function partial(f){
+        var args = arguments;
+        return function(){
+            var a = array(args, 1);
+            var i = 0, j = 0;
+            for(; i < a.length; i++){
+                if(a[i] === undefined) a[i] = arguments[j++]
+            }
+            a = a.concat(array(arguments,j))
+            return f.apply(this,a)
+        }
+    }
+})();
