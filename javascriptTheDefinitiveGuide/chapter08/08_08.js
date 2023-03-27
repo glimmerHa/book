@@ -1,4 +1,11 @@
 // 函数式编程
+// 使用函数处理数组
+// 高阶函数： 操作函数的函数，它接受一(多)个函数作为参数，并返回一个新函数。
+// 不完全函数： 一个函数的实参不全，返回一个新函数，新函数接受剩余的实参，然后调用原函数
+    // 将 不完全调用 和其他高阶函数 整合在一起的时候，就可以实现一些非常有用的功能。
+// 记忆函数： 一个函数的返回值是由它的参数决定的，如果参数相同，返回值也相同，那么就可以记住这个返回值，下次调用时，直接返回记住的值，而不是重新计算。
+
+
 
 
 console.log('---exp===1---');
@@ -117,7 +124,7 @@ console.log('---exp===2---');
 })();
 
 // 不完全函数
-console.log('---exp===2---');
+console.log('---exp===3---');
 (function(){
     // 类数组对象转换成真正的数组
     function array(a, n){
@@ -164,7 +171,49 @@ console.log('---exp===2---');
 })();
 
 // 利用已有的函数 来定义一些新的函数
-var increment = partialRight(sum,1)
-var cuberoot = partialRight(Math.pow, 1/3)
-String.prototype.first = partial(String.prototype.charAt, 0)
-String.prototype.last = partial(String.prototype.substr, -1, 1)
+// var increment = partialRight(sum,1);
+// var cuberoot = partialRight(Math.pow, 1/3)
+// String.prototype.first = partial(String.prototype.charAt, 0)
+// String.prototype.last = partial(String.prototype.substr, -1, 1)
+
+
+// 记忆
+console.log('---exp===4---');
+// 高阶函数： memorize() 接收一个函数作为参数，并返回一个带有记忆能力新函数
+function memorize(f){
+    var cache = {}
+    return function(){
+        // 转化为字符串
+        var key = arguments.length + Array.prototype.join.call(arguments, ',');
+        if(key in cache) return cache[key];
+        else return cache[key] = f.apply(this,arguments)
+    }
+}
+// 使用memoize()
+/**
+ * 返回两个整数的最大公约数；使用欧几里得算法
+ * @param {*} a 
+ * @param {*} b 
+ */
+function gcd(a,b){
+    var t;
+    if(a < b){
+        t = b;
+        b = a;
+        a = t;
+    }
+    while(b != 0){
+        t = b;
+        b = a % b;
+        a = t;
+    }
+    return a;
+}
+var gcdmemo = memorize(gcd);
+console.log(gcdmemo(85,187))
+
+var updateFactorial = memorize(function(n){
+    return n <= 1 ? 1 : n * updateFactorial(n-1)
+})
+
+console.log(updateFactorial(5))
