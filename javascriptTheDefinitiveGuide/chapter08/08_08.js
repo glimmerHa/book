@@ -154,4 +154,17 @@ console.log('---exp===2---');
             return f.apply(this,a)
         }
     }
+
+    var f = function(x,y,z){
+        return x*(y-z)
+    }
+    console.log(partialLeft(f,2)(3,4))
+    console.log(partialRight(f,2)(3,4))
+    console.log(partial(f,undefined,2)(3,4))
 })();
+
+// 利用已有的函数 来定义一些新的函数
+var increment = partialRight(sum,1)
+var cuberoot = partialRight(Math.pow, 1/3)
+String.prototype.first = partial(String.prototype.charAt, 0)
+String.prototype.last = partial(String.prototype.substr, -1, 1)
