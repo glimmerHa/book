@@ -54,3 +54,10 @@ var c = new Complex(2,3);
 var d = new Complex(c.i, c.r);
 console.log(c.add(d).toString())
 console.log(Complex.parse(c.toString()).add(c.neg()).equals(Complex.ZERO))
+
+// 可以模拟，但不推荐
+Complex.prototype.toString = function(){
+    with(this){
+        return "{" + r + "," + i + "}";
+    }
+}
