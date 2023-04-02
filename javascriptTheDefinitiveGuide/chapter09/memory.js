@@ -13,6 +13,12 @@ String.prototype.trim = String.prototype.trim || function(){
 
 Function.prototype.getName = function(){
     if('name' in this) return this.name;
-    return this.name = this.toString().match(/ function\s*([^(]*)\(/)[1]
+    return this.name = this.toString().match(/function\s*([^(]*)\(/)[1]
     // String.prototype.match(regexp) 方法可在字符串内检索指定的值，或找到一个或多个正则表达式的匹配。
+    // 该方法返回一个数组，其中存放匹配的结果。如果未找到匹配，则返回 null。
+    // 语法：stringObject.match(regexp)
+    // 参数：regexp 必需。规定检索的模式和标志。
+    // \s 匹配空白字符，包括空格、制表符、换页符等等
+    // * 匹配前面的子表达式零次或多次
+    // + 匹配前面的子表达式一次或多次
 }
